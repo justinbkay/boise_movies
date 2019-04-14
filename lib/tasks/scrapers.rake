@@ -10,7 +10,7 @@ namespace :scrapers do
 
     movies.each do |m|
       title = m.css('#hpMtitle > a').text
-      times = m.css('div.hpTimes > a').map { |t| t.text }
+      times = m.css('div.hpTimes > a').map(&:text)
 
       movie = Movie.create(title: title)
       movie.showings << Showing.new(play_date: Date.today, showtimes: times)

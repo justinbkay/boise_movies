@@ -1,7 +1,32 @@
 <h1>Movies</h1>
 
 <% @movies.each do |m| %>
-  <div class="card horizontal">
+  <div class="card horizontal hoverable hide-on-small-only">
+    <div class="card-image">
+      <img src="<%= m.poster %>">
+    </div>
+    <div class="card-stacked">
+      <div class="card-content">
+        <h2><%= m.title %></h2>
+        <h3><%= m.rating %></h3>
+        <p><%= m.overview %></p>
+      </div>
+      <% m.theaters.each do |t| %>
+        <div class="card-action">
+          <h4><%= t.name %></h4>
+          <% m.showings.where(theater_id: t.id, play_date: Date.today).each do |s| %>
+            <% s.showtimes.each do |st| %>
+              <div style="display: inline; margin-right: 25px;font-size: 1.1em;">
+                <i class="material-icons">access_time</i>
+                <%= normalize_times(st) %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="card hoverable hide-on-med-and-up">
     <div class="card-image">
       <img src="<%= m.poster %>">
     </div>
@@ -18,7 +43,7 @@
             <% s.showtimes.each do |st| %>
               <div style="display: inline; margin-right: 25px;font-size: 1.2em;">
                 <i class="material-icons">access_time</i>
-                <%= st %>
+                <%= normalize_times(st) %>
               </div>
             <% end %>
           <% end %>

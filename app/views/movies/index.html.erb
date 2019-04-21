@@ -7,7 +7,7 @@
   <div data-action="click->filter#toggleR" data-target="filter.r" class="chip green lighten-2">R</div>
 </div>
 <% @movies.each do |m| %>
-  <div class="card horizontal hoverable hide-on-small-only <%= m.rating %>">
+  <div class="card horizontal hoverable hide-on-small-only rated-<%= m.rating %>">
     <div class="card-image">
       <img src="<%= m.poster %>">
     </div>
@@ -32,7 +32,7 @@
       <% end %>
     </div>
   </div>
-  <div class="card hoverable hide-on-med-and-up <%= m.rating %>">
+  <div class="card hoverable hide-on-med-and-up rated-<%= m.rating %>">
     <div class="card-image">
       <img src="<%= m.poster %>">
     </div>

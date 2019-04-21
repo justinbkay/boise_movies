@@ -17,22 +17,22 @@ export default class extends Controller {
   }
 
   toggleG() {
-    const g = document.querySelectorAll('.G')
+    const g = document.querySelectorAll('.rated-G')
     this.toggler(this.gTarget, g)
   }
 
   togglePG() {
-    const pg = document.querySelectorAll('.PG')
+    const pg = document.querySelectorAll('.rated-PG')
     this.toggler(this.pgTarget, pg)
   }
 
   togglePG13() {
-    const pg13 = document.querySelectorAll('.PG-13')
+    const pg13 = document.querySelectorAll('.rated-PG-13')
     this.toggler(this.pg13Target, pg13)
   }
 
   toggleR() {
-    const r = document.querySelectorAll('.R')
+    const r = document.querySelectorAll('.rated-R')
     this.toggler(this.rTarget, r)
   }
 

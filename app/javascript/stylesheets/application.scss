@@ -39,3 +39,12 @@
 @import "components/pulse";
 @import "components/datepicker";
 @import "components/timepicker";
+
+#rating_filter {
+  span {
+    font-size: 1.2em;
+  }
+  .chip {
+    cursor: pointer;
+  }
+}

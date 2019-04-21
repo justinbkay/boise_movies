@@ -1,7 +1,13 @@
 <h1>Movies</h1>
-
+<div data-controller="filter">
+  <span data-target="filter.output"></span>
+  <div data-action="click->filter#toggleG" data-target="filter.g" class="chip green lighten-2">G</div>
+  <div data-action="click->filter#togglePG" data-target="filter.pg" class="chip green lighten-2">PG</div>
+  <div data-action="click->filter#togglePG13" data-target="filter.pg13" class="chip green lighten-2">PG-13</div>
+  <div data-action="click->filter#toggleR" data-target="filter.r" class="chip green lighten-2">R</div>
+</div>
 <% @movies.each do |m| %>
-  <div class="card horizontal hoverable hide-on-small-only">
+  <div class="card horizontal hoverable hide-on-small-only <%= m.rating %>">
     <div class="card-image">
       <img src="<%= m.poster %>">
     </div>
@@ -26,7 +32,7 @@
       <% end %>
     </div>
   </div>
-  <div class="card hoverable hide-on-med-and-up">
+  <div class="card hoverable hide-on-med-and-up <%= m.rating %>">
     <div class="card-image">
       <img src="<%= m.poster %>">
     </div>

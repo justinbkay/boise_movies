@@ -61,9 +61,14 @@ namespace :scrapers do
 
   def get_detail(link)
     page2 = Nokogiri::HTML(open("http://meridian.hallettcinemas.com/#{link}"))
-    rating = page2.css('table.right_nowshowing > tr:nth-child(2) > td:nth-child(3)').children.first.text
+    rating = fix_rating(page2.css('table.right_nowshowing > tr:nth-child(2) > td:nth-child(3)').children.first.text.strip)
     poster = page2.css('#mposter > img').attribute('src').value
     summary = page2.xpath('//td[contains(text(), "Synopsis")]').first.parent.css('td').children[1].text
     {rating: rating, poster: poster, summary: summary}
   end
+
+  def fix_rating(rating)
+    rating == 'PG13' ? 'PG-13' : rating
+  end
+
 end

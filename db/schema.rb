@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2019_04_13_152658) do
     t.string "title"
     t.string "rating"
     t.text "overview"
-    t.string "tagline"
+    t.string "poster"
     t.integer "tmdb_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -28,12 +28,27 @@ ActiveRecord::Schema.define(version: 2019_04_13_152658) do
 
   create_table "showings", force: :cascade do |t|
     t.bigint "movie_id"
+    t.bigint "theater_id"
     t.date "play_date"
     t.string "showtimes", array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["movie_id"], name: "index_showings_on_movie_id"
+    t.index ["theater_id"], name: "index_showings_on_theater_id"
+  end
+
+  create_table "theaters", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.string "phone"
+    t.string "website"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "showings", "movies"
+  add_foreign_key "showings", "theaters"
 end

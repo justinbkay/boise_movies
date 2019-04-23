@@ -6,6 +6,8 @@ It runs on Ruby 2.5.*
 
 Tests are written with rspec
 
+The css is https://materializecss.com and the JS is done with Stimulus.js
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 

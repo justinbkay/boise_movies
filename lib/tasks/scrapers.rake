@@ -59,6 +59,23 @@ namespace :scrapers do
     end
   end
 
+  desc 'scrape imdb'
+  task imdb: :environment do
+    page = Nokogiri::HTML(open("https://m.imdb.com/showtimes/movies?date=2019-04-22&zip=83642&country=US"))
+
+    movies = page.css('a.ipl-block-link')
+    movies.each_cons(2) do |grp|
+      puts grp[0].css('.ipl-detail-block__title').text
+      puts grp[0].css('div.showtimes-title-metadata > ul > li:nth-child(3)').inner_html
+      puts grp[0].css('.ipl-user-rating__label').text
+      puts grp[0].css('.ipl-metascore__score').text
+      showtimes = grp[1].attribute('href')
+
+      # then follow this link
+      page2 = Nokogiri::HTML(open("https://m.imdb.com/#{showtimes}"))
+    end
+  end
+
   def get_detail(link)
     page2 = Nokogiri::HTML(open("http://meridian.hallettcinemas.com/#{link}"))
     rating = fix_rating(page2.css('table.right_nowshowing > tr:nth-child(2) > td:nth-child(3)').children.first.text.strip)

@@ -1,5 +1,11 @@
 # README
 
+This is a Rails 6.0 application
+
+It runs on Ruby 2.5.*
+
+Tests are written with rspec
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 

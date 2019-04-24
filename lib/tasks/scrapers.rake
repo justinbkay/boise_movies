@@ -61,7 +61,7 @@ namespace :scrapers do
 
   desc 'scrape imdb'
   task imdb: :environment do
-    page = Nokogiri::HTML(open("https://m.imdb.com/showtimes/movies?date=2019-04-22&zip=83642&country=US"))
+    page = Nokogiri::HTML(open("https://m.imdb.com/showtimes/movies?date=2019-04-23&zip=83642&country=US"))
 
     movies = page.css('a.ipl-block-link')
     movies.each_cons(2) do |grp|
@@ -73,6 +73,17 @@ namespace :scrapers do
 
       # then follow this link
       page2 = Nokogiri::HTML(open("https://m.imdb.com/#{showtimes}"))
+      showtimeresults = page2.css('.showtimes-results')
+      showtimeresults.each do |sec|
+        # puts sec.css('.ipl-block-link .showtimes-theater-detail-block__header').text
+        theaters = sec.css('.ipl-block-link .showtimes-theater-detail-block__header').map(&:text)
+        # showtimes_array = sec.css('ul.showtimes-title-showtime > li > a').map(&:text)
+        showtimes_array = sec.css('.ipl-block-link + ul')
+        (0..theaters.size - 1).each do |iter|
+          puts theaters[iter]
+          puts showtimes_array[iter].css('li a').map(&:text)
+        end
+      end
     end
   end
 

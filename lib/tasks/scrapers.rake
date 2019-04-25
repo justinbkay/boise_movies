@@ -66,11 +66,17 @@ namespace :scrapers do
 
     movies = page.css('a.ipl-block-link')
     movies.each_cons(2) do |grp|
-      @title = grp[0].css('.ipl-detail-block__title').text
-      puts @rating = grp[0].css('div.showtimes-title-metadata > ul > li:nth-child(3)').inner_html
-      puts @imdb_score = grp[0].css('.ipl-user-rating__label').text
-      puts @metascore = grp[0].css('.ipl-metascore__score').text
-
+      @title = grp[0].css('.ipl-detail-block__title').text.strip
+      @rating = grp[0].css('div.showtimes-title-metadata > ul > li:nth-child(3)').inner_html
+      @imdb_score = grp[0].css('.ipl-user-rating__label').text
+      @metascore = grp[0].css('.ipl-metascore__score').text
+      if @title.present?
+        movie = Movie.new(title: @title,
+                          rating: @rating,
+                          imdb_rating: @imdb_score,
+                          metascore: @metascore)
+      end
+      puts movie.inspect
       showtimes_href = grp[1].attribute('href')
       imdb_id = /\/(tt.+)/.match(showtimes_href)[1]
       showtimes = "/showtimes/title/#{imdb_id}?date=#{date}&zip=83642&country=US"
@@ -84,19 +90,12 @@ namespace :scrapers do
         theaters = sec.css('.ipl-block-link .showtimes-theater-detail-block__header').map(&:text)
         # showtimes_array = sec.css('ul.showtimes-title-showtime > li > a').map(&:text)
         showtimes_array = sec.css('.ipl-block-link + ul')
-        puts @title + ' - title 1'
+        puts @title
         (0..theaters.size - 1).each do |iter|
-          puts @title + ' - title 2'
+          # puts @title + ' - title 2'
           if Theater.where(imdb_name: theaters[iter].strip).presence
             theater = Theater.where(imdb_name: theaters[iter].strip).first
-            puts theaters[iter]
-            debugger
-            puts @title + ' - title 3'
-            movie = Movie.create!(title: @title,
-                                 rating: @rating,
-                                 imdb_rating: @imdb_score,
-                                 metascore: @metascore)
-
+            movie.save!
             movie.showings << Showing.new(theater_id: theater.id,
                                           play_date: date,
                                           showtimes: showtimes_array[iter].css('li a').map(&:text))

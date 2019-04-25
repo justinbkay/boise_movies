@@ -61,27 +61,47 @@ namespace :scrapers do
 
   desc 'scrape imdb'
   task imdb: :environment do
-    page = Nokogiri::HTML(open("https://m.imdb.com/showtimes/movies?date=2019-04-23&zip=83642&country=US"))
+    date = Date.today
+    page = Nokogiri::HTML(open("https://m.imdb.com/showtimes/movies?date=#{date}&zip=83642&country=US"))
 
     movies = page.css('a.ipl-block-link')
     movies.each_cons(2) do |grp|
-      puts grp[0].css('.ipl-detail-block__title').text
-      puts grp[0].css('div.showtimes-title-metadata > ul > li:nth-child(3)').inner_html
-      puts grp[0].css('.ipl-user-rating__label').text
-      puts grp[0].css('.ipl-metascore__score').text
-      showtimes = grp[1].attribute('href')
+      @title = grp[0].css('.ipl-detail-block__title').text
+      puts @rating = grp[0].css('div.showtimes-title-metadata > ul > li:nth-child(3)').inner_html
+      puts @imdb_score = grp[0].css('.ipl-user-rating__label').text
+      puts @metascore = grp[0].css('.ipl-metascore__score').text
+
+      showtimes_href = grp[1].attribute('href')
+      imdb_id = /\/(tt.+)/.match(showtimes_href)[1]
+      showtimes = "/showtimes/title/#{imdb_id}?date=#{date}&zip=83642&country=US"
 
       # then follow this link
-      page2 = Nokogiri::HTML(open("https://m.imdb.com/#{showtimes}"))
+      # puts "https://m.imdb.com#{showtimes}"
+      page2 = Nokogiri::HTML(open("https://m.imdb.com#{showtimes}"))
       showtimeresults = page2.css('.showtimes-results')
       showtimeresults.each do |sec|
         # puts sec.css('.ipl-block-link .showtimes-theater-detail-block__header').text
         theaters = sec.css('.ipl-block-link .showtimes-theater-detail-block__header').map(&:text)
         # showtimes_array = sec.css('ul.showtimes-title-showtime > li > a').map(&:text)
         showtimes_array = sec.css('.ipl-block-link + ul')
+        puts @title + ' - title 1'
         (0..theaters.size - 1).each do |iter|
-          puts theaters[iter]
-          puts showtimes_array[iter].css('li a').map(&:text)
+          puts @title + ' - title 2'
+          if Theater.where(imdb_name: theaters[iter].strip).presence
+            theater = Theater.where(imdb_name: theaters[iter].strip).first
+            puts theaters[iter]
+            debugger
+            puts @title + ' - title 3'
+            movie = Movie.create!(title: @title,
+                                 rating: @rating,
+                                 imdb_rating: @imdb_score,
+                                 metascore: @metascore)
+
+            movie.showings << Showing.new(theater_id: theater.id,
+                                          play_date: date,
+                                          showtimes: showtimes_array[iter].css('li a').map(&:text))
+          end
+          # puts showtimes_array[iter].css('li a').map(&:text)
         end
       end
     end

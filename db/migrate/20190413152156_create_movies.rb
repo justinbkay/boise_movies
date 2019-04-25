@@ -5,6 +5,8 @@ class CreateMovies < ActiveRecord::Migration[6.0]
       t.string :rating
       t.text :overview
       t.string :poster
+      t.string :imdb_rating
+      t.string :metascore
       t.integer :tmdb_id
 
       t.timestamps

@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2019_04_13_152658) do
     t.string "rating"
     t.text "overview"
     t.string "poster"
+    t.string "imdb_rating"
+    t.string "metascore"
     t.integer "tmdb_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -39,6 +41,7 @@ ActiveRecord::Schema.define(version: 2019_04_13_152658) do
 
   create_table "theaters", force: :cascade do |t|
     t.string "name"
+    t.string "imdb_name"
     t.string "address"
     t.string "city"
     t.string "state"

@@ -71,10 +71,10 @@ namespace :scrapers do
       @imdb_score = grp[0].css('.ipl-user-rating__label').text
       @metascore = grp[0].css('.ipl-metascore__score').text
       if @title.present?
-        movie = Movie.new(title: @title,
-                          rating: @rating,
-                          imdb_rating: @imdb_score,
-                          metascore: @metascore)
+        movie = Movie.create(title: @title,
+                             rating: @rating,
+                             imdb_rating: @imdb_score,
+                             metascore: @metascore)
       end
       puts movie.inspect
       showtimes_href = grp[1].attribute('href')
@@ -93,9 +93,9 @@ namespace :scrapers do
         puts @title
         (0..theaters.size - 1).each do |iter|
           # puts @title + ' - title 2'
+          movie = Movie.last
           if Theater.where(imdb_name: theaters[iter].strip).presence
             theater = Theater.where(imdb_name: theaters[iter].strip).first
-            movie.save!
             movie.showings << Showing.new(theater_id: theater.id,
                                           play_date: date,
                                           showtimes: showtimes_array[iter].css('li a').map(&:text))

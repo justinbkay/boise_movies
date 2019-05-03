@@ -16,6 +16,8 @@
         <h2><%= m.title %></h2>
         <h3><%= m.rating %></h3>
         <p><%= m.overview %></p>
+        <span class="badge green" data-badge-caption="IMDB"><%= m.imdb_rating %></span>
+        <span class="badge yellow darken-1" data-badge-caption="MetaScore"><%= m.metascore %></span>
       </div>
       <% m.theaters.each do |t| %>
         <div class="card-action">
@@ -41,6 +43,8 @@
         <h2><%= m.title %></h2>
         <h3><%= m.rating %></h3>
         <p><%= m.overview %></p>
+        <span class="badge green" data-badge-caption="IMDB"><%= m.imdb_rating %></span>
+        <span class="badge yellow darken-1" data-badge-caption="MetaScore"><%= m.metascore %></span>
       </div>
       <% m.theaters.each do |t| %>
         <div class="card-action">

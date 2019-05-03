@@ -54,7 +54,7 @@ namespace :scrapers do
       movie = Movie.create(title: title,
                            rating: page2[:rating],
                            overview: page2[:summary],
-                           poster: page2[:poster])
+                           poster: page2[:poster]) unless movie
       movie.showings << Showing.new(theater_id: 1, play_date: Date.today, showtimes: times)
     end
   end
@@ -67,14 +67,16 @@ namespace :scrapers do
     movies = page.css('a.ipl-block-link')
     movies.each_cons(2) do |grp|
       @title = grp[0].css('.ipl-detail-block__title').text.strip
+      next if @title.blank?
       @rating = grp[0].css('div.showtimes-title-metadata > ul > li:nth-child(3)').inner_html
       @imdb_score = grp[0].css('.ipl-user-rating__label').text
       @metascore = grp[0].css('.ipl-metascore__score').text
       if @title.present?
+        movie = Movie.where(title: @title).first
         movie = Movie.create(title: @title,
                              rating: @rating,
                              imdb_rating: @imdb_score,
-                             metascore: @metascore)
+                             metascore: @metascore) unless movie
       end
       puts movie.inspect
       showtimes_href = grp[1].attribute('href')
@@ -82,25 +84,19 @@ namespace :scrapers do
       showtimes = "/showtimes/title/#{imdb_id}?date=#{date}&zip=83642&country=US"
 
       # then follow this link
-      # puts "https://m.imdb.com#{showtimes}"
       page2 = Nokogiri::HTML(open("https://m.imdb.com#{showtimes}"))
       showtimeresults = page2.css('.showtimes-results')
       showtimeresults.each do |sec|
-        # puts sec.css('.ipl-block-link .showtimes-theater-detail-block__header').text
         theaters = sec.css('.ipl-block-link .showtimes-theater-detail-block__header').map(&:text)
-        # showtimes_array = sec.css('ul.showtimes-title-showtime > li > a').map(&:text)
         showtimes_array = sec.css('.ipl-block-link + ul')
-        puts @title
         (0..theaters.size - 1).each do |iter|
-          # puts @title + ' - title 2'
-          movie = Movie.last
           if Theater.where(imdb_name: theaters[iter].strip).presence
             theater = Theater.where(imdb_name: theaters[iter].strip).first
+            movie.showings.where(play_date: date).destroy_all
             movie.showings << Showing.new(theater_id: theater.id,
                                           play_date: date,
                                           showtimes: showtimes_array[iter].css('li a').map(&:text))
           end
-          # puts showtimes_array[iter].css('li a').map(&:text)
         end
       end
     end

@@ -59,11 +59,40 @@ namespace :scrapers do
     end
   end
 
+
   desc 'scrape imdb'
   task imdb: :environment do
-    date = Date.today
-    page = Nokogiri::HTML(open("https://m.imdb.com/showtimes/movies?date=#{date}&zip=83642&country=US"))
+    url = 'https://www.imdb.com/showtimes/location/US/83702'
+    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36"
+    page = Nokogiri::HTML(open(url, { "User-Agent" => user_agent }))
 
+    movies = page.css('.lister-item.mode-grid')
+
+    movies.each do |movie|
+      puts title = movie.css('span[name=alpha]').attribute('data-value').value
+      puts user_rating = movie.css('span[name=user_rating]').attribute('data-value').value
+      puts rating = movie.css('span.certificate').text
+      puts metascore = movie.css('span.metascore').text
+      puts description = movie.css('.ratings-bar + p').text
+      puts img = movie.css('a > img').attribute('src').value
+      puts link = movie.css('.lister-item-image > a').attribute('href').value =~ /\A(.*)\?/
+      puts
+
+      page2 = Nokogiri::HTML(open('https://www.imdb.com/' + $1 + 'US/83634', { "User-Agent" => user_agent }))
+      theaters = page2.css('.list_item')
+      theaters.each do |theater|
+        puts theatre = theater.css('.fav_box > h3 > a > span').text
+      end
+
+    end
+  end
+
+  desc 'scrape imdb mobile'
+  task imdb_mobile: :environment do
+    date = Date.today
+    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36"
+    # page = Nokogiri::HTML(open("https://m.imdb.com/showtimes/movies?date=#{date}&zip=83706&country=US", { "User-Agent" => "#{user_agent}" }))
+    page = open("https://m.imdb.com/showtimes/movies?date=2019-05-04&zip=83706&country=US")
     movies = page.css('a.ipl-block-link')
     movies.each_cons(2) do |grp|
       @title = grp[0].css('.ipl-detail-block__title').text.strip
@@ -78,21 +107,22 @@ namespace :scrapers do
                              imdb_rating: @imdb_score,
                              metascore: @metascore) unless movie
       end
-      puts movie.inspect
+      # puts movie.inspect
       showtimes_href = grp[1].attribute('href')
       imdb_id = /\/(tt.+)/.match(showtimes_href)[1]
-      showtimes = "/showtimes/title/#{imdb_id}?date=#{date}&zip=83642&country=US"
+      showtimes = "/showtimes/title/#{imdb_id}?date=#{date}&zip=83706&country=US"
 
       # then follow this link
       page2 = Nokogiri::HTML(open("https://m.imdb.com#{showtimes}"))
       showtimeresults = page2.css('.showtimes-results')
       showtimeresults.each do |sec|
-        theaters = sec.css('.ipl-block-link .showtimes-theater-detail-block__header').map(&:text)
+        theaters = sec.css('.showtimes-theater-detail-block__header').map(&:text)
         showtimes_array = sec.css('.ipl-block-link + ul')
         (0..theaters.size - 1).each do |iter|
+          puts theaters[iter]
           if Theater.where(imdb_name: theaters[iter].strip).presence
             theater = Theater.where(imdb_name: theaters[iter].strip).first
-            movie.showings.where(play_date: date).destroy_all
+            movie.showings.where(play_date: date, theater_id: theater.id).destroy_all
             movie.showings << Showing.new(theater_id: theater.id,
                                           play_date: date,
                                           showtimes: showtimes_array[iter].css('li a').map(&:text))

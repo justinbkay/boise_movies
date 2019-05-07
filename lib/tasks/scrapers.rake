@@ -65,6 +65,7 @@ namespace :scrapers do
     url = 'https://www.imdb.com/showtimes/location/US/83702'
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36"
     page = Nokogiri::HTML(open(url, { "User-Agent" => user_agent }))
+    date = Date.today
 
     movies = page.css('.lister-item.mode-grid')
 
@@ -74,16 +75,31 @@ namespace :scrapers do
       puts rating = movie.css('span.certificate').text
       puts metascore = movie.css('span.metascore').text
       puts description = movie.css('.ratings-bar + p').text
-      puts img = movie.css('a > img').attribute('src').value
       puts link = movie.css('.lister-item-image > a').attribute('href').value =~ /\A(.*)\?/
       puts
+
+      movie = Movie.where(title: title).first
+      movie ||= Movie.create(title: title,
+                           overview: description,
+                           rating: rating,
+                           imdb_rating: user_rating,
+                           metascore: metascore)
 
       page2 = Nokogiri::HTML(open('https://www.imdb.com/' + $1 + 'US/83634', { "User-Agent" => user_agent }))
       theaters = page2.css('.list_item')
       theaters.each do |theater|
         puts theatre = theater.css('.fav_box > h3 > a > span').text
-      end
+        puts showtimes = theater.css('.showtimes a.showtimes-ticketing-link').map(&:text)
+        puts img = page2.css('.poster.shadowed').attribute('src').value
+        movie.update_attribute(:poster, img)
+        next unless Theater.where(imdb_name: theatre.strip).presence
 
+        theater = Theater.where(imdb_name: theatre.strip).first
+        movie.showings.where(play_date: date, theater_id: theater.id).destroy_all
+        movie.showings << Showing.new(theater_id: theater.id,
+                                      play_date: date,
+                                      showtimes: showtimes)
+      end
     end
   end
 

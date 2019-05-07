@@ -75,17 +75,18 @@ namespace :scrapers do
       puts rating = movie.css('span.certificate').text
       puts metascore = movie.css('span.metascore').text
       puts description = movie.css('.ratings-bar + p').text
-      puts link = movie.css('.lister-item-image > a').attribute('href').value =~ /\A(.*)\?/
+      puts movie.css('.lister-item-image > a').attribute('href').value =~ /(tt[0-9]+)/
       puts
+      imdb_id = $1
 
       movie = Movie.where(title: title).first
       movie ||= Movie.create(title: title,
-                           overview: description,
-                           rating: rating,
-                           imdb_rating: user_rating,
-                           metascore: metascore)
+                             overview: description,
+                             rating: rating,
+                             imdb_rating: user_rating,
+                             metascore: metascore)
 
-      page2 = Nokogiri::HTML(open('https://www.imdb.com/' + $1 + 'US/83634', { "User-Agent" => user_agent }))
+      page2 = Nokogiri::HTML(open('https://www.imdb.com/showtimes/title/' + imdb_id + '/US/83634', { "User-Agent" => user_agent }))
       theaters = page2.css('.list_item')
       theaters.each do |theater|
         puts theatre = theater.css('.fav_box > h3 > a > span').text
@@ -99,6 +100,13 @@ namespace :scrapers do
         movie.showings << Showing.new(theater_id: theater.id,
                                       play_date: date,
                                       showtimes: showtimes)
+      end
+      page3 = Nokogiri::HTML(open('https://www.imdb.com/title/' + imdb_id + '/?ref_=shtt_ov_i'))
+      begin
+      puts img = page3.css('img.pswp__img').attribute('src').value
+      movie.update_attribute(:poster, img)
+      rescue
+        puts movie.title
       end
     end
   end

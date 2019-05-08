@@ -22,7 +22,7 @@
       <% m.theaters.each do |t| %>
         <div class="card-action">
           <h4><%= t.name %></h4>
-          <% m.showings.where(theater_id: t.id, play_date: Date.today).each do |s| %>
+          <% m.showings.theater_on_date(t, Date.today).each do |s| %>
             <div class="row">
               <% s.showtimes.each do |st| %>
                 <div class="col l3 m3">

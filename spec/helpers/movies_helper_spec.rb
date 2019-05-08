@@ -11,5 +11,9 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe MoviesHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'normalize_times' do
+    it 'puts times into a standard format' do
+      expect(helper.normalize_times('1:30 pm')).to eq('01:30 PM')
+    end
+  end
 end

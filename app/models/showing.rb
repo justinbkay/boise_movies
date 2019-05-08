@@ -4,6 +4,5 @@ class Showing < ApplicationRecord
 
   validates :play_date, :showtimes, presence: true
 
-  scope :theater_on_date,
-        ->(theater, date) { where(theater_id: theater.id, play_date: date) }
+  scope :theater_on_date, ->(theater, date) { where(theater_id: theater.id, play_date: date) }
 end

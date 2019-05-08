@@ -8,4 +8,12 @@ RSpec.describe Showing, type: :showing do
     showing = movie.showings.first
     expect(showing.valid?).to eq(true)
   end
+
+  it 'requires showtimes to be valid' do
+    theater = create(:theater)
+    movie = Movie.new
+    showing = Showing.new(theater: theater, play_date: Date.today)
+    expect(showing.valid?).to eq(false)
+    expect(showing.errors[:showtimes]).to include("can't be blank")
+  end
 end

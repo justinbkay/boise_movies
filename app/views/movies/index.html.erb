@@ -19,7 +19,7 @@
         <span class="badge green" data-badge-caption="IMDB"><%= m.imdb_rating %></span>
         <span class="badge yellow darken-1" data-badge-caption="MetaScore"><%= m.metascore %></span>
       </div>
-      <% m.theaters.each do |t| %>
+      <% m.theaters.uniq.each do |t| %>
         <div class="card-action">
           <h4><%= t.name %></h4>
           <% m.showings.theater_on_date(t, Date.today).each do |s| %>

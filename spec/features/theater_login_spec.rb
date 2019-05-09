@@ -16,4 +16,21 @@ RSpec.feature 'Theater management requires login', type: :feature do
     expect(current_path).to eq('/theaters')
   end
 
+  scenario 'User uses incorrect username or password' do
+    visit '/sessions/new'
+    fill_in('username', with: 'admin')
+    fill_in('password', with: 'password')
+    click_button('Log In')
+    expect(current_path).to eq('/sessions')
+  end
+
+  scenario 'User can log in and log out' do
+    visit '/sessions/new'
+    fill_in('username', with: Rails.application.credentials.admin_user)
+    fill_in('password', with: Rails.application.credentials.admin_password)
+    click_button('Log In')
+    click_link('Log Out')
+    expect(current_path).to eq('/')
+  end
+
 end

@@ -1,19 +1,19 @@
 <div class="row valign-wrapper center-align" style="margin: 100px 0;">
-  <form class="col s12">
+  <%= form_with url: sessions_path, class: 'col s12' do |f| %>
     <div class="row">
       <div class="input-field col s6 offset-s3">
-        <input placeholder="Username" id="username" type="text" class="validate">
+        <%= f.text_field :username, placeholder: 'Username', class: 'validate' %>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s6 offset-s3">
-        <input placeholder="Password" id="password" type="text" class="validate">
+        <%= f.password_field :password, placeholder: 'Password', class: 'validate' %>
       </div>
     </div>
     <div class="row">
       <div>
-        <input type="submit" class="waves-effect waves-light btn">
+        <input type="submit" value="Log In" class="waves-effect waves-light btn">
       </div>
     </div>
-  </form>
+  <% end %>
 </div>

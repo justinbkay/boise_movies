@@ -14,7 +14,11 @@
     <nav role="navigation">
       <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Boise Movies</a>
         <ul class="right hide-on-med-and-down">
-          <li><a href="<%= new_session_path %>">Log in</a></li>
+          <% if session[:admin].present? %>
+            <li> <%= link_to  "Log Out", '/sessions/1', method: :delete %> </li>
+          <% else %>
+            <li><a href="<%= new_session_path %>">Log in</a></li>
+          <% end %>
         </ul>
 
         <ul id="nav-mobile" class="sidenav">

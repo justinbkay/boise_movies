@@ -39,12 +39,12 @@ export default class extends Controller {
   toggler(target, movies) {
     let add, remove, display
     if (target.classList.contains('green')) {
-      add = 'red'
-      remove = 'green'
+      add = ['red', 'strikethrough']
+      remove = ['green']
       display = 'none'
     } else {
-      add = 'green'
-      remove = 'red'
+      add = ['green']
+      remove = ['red', 'strikethrough']
       display = 'flex'
     }
 
@@ -52,7 +52,7 @@ export default class extends Controller {
       movie.style.display = display
     })
 
-    target.classList.remove(remove)
-    target.classList.add(add)
+    target.classList.remove(...remove)
+    target.classList.add(...add)
   }
 }

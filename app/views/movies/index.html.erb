@@ -20,6 +20,7 @@
         <span class="badge yellow darken-1" data-badge-caption="MetaScore"><%= m.metascore %></span>
       </div>
       <% m.theaters.uniq.each do |t| %>
+        <% next if m.showings.theater_on_date(t, Date.today).blank? %>
         <div class="card-action">
           <h4><%= t.name %></h4>
           <% m.showings.theater_on_date(t, Date.today).each do |s| %>

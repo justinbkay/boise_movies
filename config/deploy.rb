@@ -25,6 +25,7 @@ set :repo_url, "git@github.com:justinbkay/boise_movies.git"
 
 # Default value for linked_dirs is []
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
+append :linked_files, "config/master.key"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }

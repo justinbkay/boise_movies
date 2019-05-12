@@ -81,5 +81,5 @@ test:
 production:
   <<: *default
   database: boise_movies_production
-  username: boise_movies
-  password: <%= ENV['BOISE_MOVIES_DATABASE_PASSWORD'] %>
+  username: deploy
+  password: <%= Rails.application.credentials.db_password %>

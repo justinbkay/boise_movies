@@ -90,7 +90,9 @@ namespace :scrapers do
       theaters = page2.css('.list_item')
       theaters.each do |theater|
         puts theatre = theater.css('.fav_box > h3 > a > span').text
-        puts showtimes = theater.css('.showtimes a.showtimes-ticketing-link').map(&:text)
+        showtimes = theater.css('.showtimes a.showtimes-ticketing-link')
+                                .map(&:text)
+        puts showtimes = add_meridiem(showtimes)
         puts img = page2.css('.poster.shadowed').attribute('src').value
         movie.update_attribute(:poster, img)
         next unless Theater.where(imdb_name: theatre.strip).presence
@@ -168,4 +170,15 @@ namespace :scrapers do
     rating == 'PG13' ? 'PG-13' : rating
   end
 
+  def add_meridiem(showtimes)
+    return if showtimes.blank?
+    ampm = ''
+
+    showtimes.map do |showtime|
+      m = /.*([am|pm]{2})\z/.match(showtime)
+      ampm = m[1] if m
+
+      m.present? ? showtime : "#{showtime} #{ampm}"
+    end
+  end
 end

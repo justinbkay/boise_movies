@@ -41,7 +41,9 @@ end
 
 group :development do
   gem "capistrano", "~> 3.10", require: false
+  gem 'capistrano-bundler', require: false
   gem "capistrano-rails", "~> 1.4", require: false
+  gem 'capistrano-rbenv', github: 'capistrano/rbenv', require: false
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rb-readline'

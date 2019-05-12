@@ -59,7 +59,6 @@ namespace :scrapers do
     end
   end
 
-
   desc 'scrape imdb'
   task imdb: :environment do
     url = 'https://www.imdb.com/showtimes/location/US/83702'

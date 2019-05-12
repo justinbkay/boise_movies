@@ -26,7 +26,7 @@
           <% m.showings.theater_on_date(t, Date.today).each do |s| %>
             <div class="row">
               <% s.showtimes.each do |st| %>
-                <div class="col l3 m3">
+                <div class="col l3 m3 s4 showtimes">
                   <i class="material-icons">access_time</i>
                   <%= normalize_times(st) %>
                 </div>

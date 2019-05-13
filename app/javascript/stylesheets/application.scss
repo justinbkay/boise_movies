@@ -81,7 +81,7 @@
     }
   }
 
-  div.card-image > img.side-poster {
+  div.card-image > img.side-poster, div.title-rating {
     display: none;
   }
 
@@ -119,7 +119,7 @@
       font-size: 1.2em;
     }
   }
-  div.card-image > img.side-poster {
+  div.card-image > img.side-poster, div.title-rating {
     display: block;
   }
   .top-poster {

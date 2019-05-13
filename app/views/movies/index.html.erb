@@ -7,17 +7,20 @@
   <div data-action="click->filter#toggleR" data-target="filter.r" class="chip green lighten-2">R</div>
 </div>
 <% @movies.each do |m| %>
-  <div class="card horizontal hoverable hide-on-small-only rated-<%= m.rating %>">
+  <div class="card horizontal hoverable rated-<%= m.rating %>">
     <div class="card-image">
-      <img src="<%= m.poster %>">
+      <img class="side-poster" src="<%= m.poster %>">
     </div>
     <div class="card-stacked">
-      <div class="card-content">
+      <div class="top-poster">
+        <img src="<%= m.poster %>">
         <h2><%= m.title %></h2>
         <h3><%= m.rating %></h3>
+      </div>
+      <div class="card-content">
         <p><%= m.overview %></p>
-        <span class="badge green" data-badge-caption="IMDB"><%= m.imdb_rating %></span>
-        <span class="badge yellow darken-1" data-badge-caption="MetaScore"><%= m.metascore %></span>
+        <span class="badge green flow-text" data-badge-caption="IMDB"><%= m.imdb_rating %></span>
+        <span class="badge yellow darken-1 flow-text" data-badge-caption="MetaScore"><%= m.metascore %></span>
       </div>
       <% m.theaters.uniq.each do |t| %>
         <% next if m.showings.theater_on_date(t, Date.today).blank? %>
@@ -26,36 +29,7 @@
           <% m.showings.theater_on_date(t, Date.today).each do |s| %>
             <div class="row">
               <% s.showtimes.each do |st| %>
-                <div class="col l3 m3 s4 showtimes">
-                  <i class="material-icons">access_time</i>
-                  <%= normalize_times(st) %>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-  <div class="card hoverable hide-on-med-and-up rated-<%= m.rating %>">
-    <div class="card-image">
-      <img src="<%= m.poster %>">
-    </div>
-    <div class="card-stacked">
-      <div class="card-content">
-        <h2><%= m.title %></h2>
-        <h3><%= m.rating %></h3>
-        <p><%= m.overview %></p>
-        <span class="badge green" data-badge-caption="IMDB"><%= m.imdb_rating %></span>
-        <span class="badge yellow darken-1" data-badge-caption="MetaScore"><%= m.metascore %></span>
-      </div>
-      <% m.theaters.each do |t| %>
-        <div class="card-action">
-          <h4><%= t.name %></h4>
-          <% m.showings.where(theater_id: t.id, play_date: Date.today).each do |s| %>
-            <div class="row">
-              <% s.showtimes.each do |st| %>
-                <div class="col s4">
+                <div class="col l3 m6 s6 showtimes">
                   <i class="material-icons">access_time</i>
                   <%= normalize_times(st) %>
                 </div>

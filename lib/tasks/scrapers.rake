@@ -64,7 +64,7 @@ namespace :scrapers do
     url = 'https://www.imdb.com/showtimes/location/US/83702'
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36"
     page = Nokogiri::HTML(open(url, { "User-Agent" => user_agent }))
-    date = Date.today
+    date = Date.current
 
     movies = page.css('.lister-item.mode-grid')
 

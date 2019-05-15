@@ -139,11 +139,17 @@
   .showtimes {
     font-size: 1em;
   }
-  .theater-showtimes {
-    display: block;
-  }
   .show-showtimes {
-    display: none;
+    padding: 20px 0;
+    font-size: 1em;
+    text-align: center;
+
+    a {
+      font-size: 1.2em;
+    }
+    i {
+      font-size: 1.2em;
+    }
   }
   .card.horizontal.hoverable {
     margin: 10px 0;

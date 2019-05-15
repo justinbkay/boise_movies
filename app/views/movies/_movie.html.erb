@@ -1,4 +1,4 @@
-<div class="card horizontal hoverable rated-<%= m.rating %>">
+<div class="card horizontal hoverable rated-<%= m.rating %>" data-controller="movie-card" data-showtimes="hidden">
   <div class="card-image">
     <img class="side-poster" src="<%= m.poster %>">
   </div>
@@ -17,21 +17,29 @@
       <span class="badge green flow-text" data-badge-caption="IMDB"><%= m.imdb_rating %></span>
       <span class="badge yellow darken-1 flow-text" data-badge-caption="MetaScore"><%= m.metascore %></span>
     </div>
-    <% m.theaters.uniq.each do |t| %>
-      <% next if m.showings.theater_on_date(t, Date.current).blank? %>
-      <div class="card-action">
-        <h4><%= t.name %></h4>
-        <% m.showings.theater_on_date(t, Date.current).each do |s| %>
-          <div class="row">
-            <% s.showtimes.each do |st| %>
-              <div class="col l3 m6 s6 showtimes">
-                <i class="material-icons">access_time</i>
-                <%= normalize_times(st) %>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
+    <div class="show-showtimes">
+      <a class="waves-effect waves-light btn-large" data-action="movie-card#toggleShowtimes">
+        <i class="material-icons right" data-target="movie-card.icon">local_movies</i>
+        Showtimes
+      </a>
+    </div>
+    <div class="theater-showtimes" data-target="movie-card.showtimes">
+      <% m.theaters.order_by_name.uniq.each do |t| %>
+        <% next if m.showings.theater_on_date(t, Date.current).blank? %>
+        <div class="card-action">
+          <h4><%= t.name %></h4>
+          <% m.showings.theater_on_date(t, Date.current).each do |s| %>
+            <div class="row">
+              <% s.showtimes.each do |st| %>
+                <div class="col l3 m6 s6 showtimes">
+                  <i class="material-icons">access_time</i>
+                  <%= normalize_times(st) %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

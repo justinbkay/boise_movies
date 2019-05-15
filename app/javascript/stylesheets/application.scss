@@ -40,6 +40,9 @@
 @import "components/datepicker";
 @import "components/timepicker";
 
+body {
+  background-color: whitesmoke;
+}
 #rating_filter {
   .chip {
     cursor: pointer;

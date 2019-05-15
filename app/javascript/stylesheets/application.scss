@@ -53,6 +53,27 @@
 @media (min-device-width : 320px) {
   .showtimes {
     font-size: 2.5em;
+    text-align: center;
+  }
+
+  .theater-showtimes {
+    display: none;
+  }
+
+  .show-showtimes {
+    padding: 80px 0;
+    font-size: 4em;
+    text-align: center;
+
+    a {
+      font-size: 0.65em;
+    }
+    i {
+      font-size: 1em;
+    }
+  }
+  .card.horizontal.hoverable {
+    margin: 30px 0;
   }
 
   h1 {
@@ -118,6 +139,16 @@
   .showtimes {
     font-size: 1em;
   }
+  .theater-showtimes {
+    display: block;
+  }
+  .show-showtimes {
+    display: none;
+  }
+  .card.horizontal.hoverable {
+    margin: 10px 0;
+  }
+
   #rating_filter {
     span, div {
       font-size: 1.2em;

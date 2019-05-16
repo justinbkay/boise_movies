@@ -16,6 +16,24 @@ export default class extends Controller {
     this.outputTarget.textContent = ''
   }
 
+  titleSearch(e) {
+    const term = e.currentTarget.value
+    const titles = document.querySelectorAll('.title-rating > h2')
+
+    const display = term.length === 0 ? 'flex' : 'none'
+
+    document.querySelectorAll('.card.horizontal.hoverable').forEach((movie) => {
+      movie.style.display = display
+    })
+
+    titles.forEach((title) => {
+      const result = title.innerHTML.toLowerCase().indexOf(term)
+      if (result !== -1) {
+        title.parentNode.parentNode.parentNode.parentNode.style.display = 'flex'
+      }
+    })
+  }
+
   toggleG() {
     const g = document.querySelectorAll('.rated-G')
     this.toggler(this.gTarget, g)

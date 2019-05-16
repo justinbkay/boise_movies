@@ -52,7 +52,6 @@ body {
 .strikethrough {
   text-decoration: line-through;
 }
-
 @media (min-device-width : 320px) {
   body > nav > div.nav-wrapper.container {
     a#logo-container {
@@ -66,6 +65,11 @@ body {
     h4 {
       font-size: 3em;
     }
+  }
+
+  .waves-effect.waves-light.btn {
+    padding: 20px;
+    height: 70px;
   }
 
   .showtimes {
@@ -143,6 +147,10 @@ body {
       height: 62px;
       line-height: 62px;
     }
+    input[type=text] {
+      font-size: 4em;
+      margin-bottom: 20px;
+    }
   }
 }
 
@@ -162,6 +170,10 @@ body {
       color: #666;
       font-size: 1em;
     }
+  }
+  .waves-effect.waves-light.btn {
+    padding: 5px;
+    height: 44px;
   }
   .show-showtimes {
     padding: 20px 0;
@@ -186,6 +198,9 @@ body {
     .chip {
       height: 32px;
       line-height: 32px;
+    }
+    input[type=text] {
+      font-size: 2em;
     }
   }
   div.card-image > img.side-poster, div.title-rating {

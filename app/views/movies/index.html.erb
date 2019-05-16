@@ -1,5 +1,6 @@
 <h1>Movies</h1>
 <div data-controller="filter" id="rating_filter">
+  <input type="text" placeholder="Search" data-action="keyup->filter#titleSearch" />
   <span data-target="filter.output"></span>
   <div data-action="click->filter#toggleG" data-target="filter.g" class="chip green lighten-2">G</div>
   <div data-action="click->filter#togglePG" data-target="filter.pg" class="chip green lighten-2">PG</div>

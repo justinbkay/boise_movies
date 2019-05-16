@@ -54,6 +54,12 @@ body {
 }
 
 @media (min-device-width : 320px) {
+  body > nav > div.nav-wrapper.container {
+    a#logo-container {
+      font-size: 3.5em;
+    }
+  }
+
   .showtimes {
     font-size: 2.5em;
     text-align: center;

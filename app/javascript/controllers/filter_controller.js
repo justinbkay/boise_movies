@@ -10,10 +10,10 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = [ "output", "g", "pg", "pg13", "r" ]
+  static targets = [ "output", "g", "pg", "pg13", "r", "unrated" ]
 
   connect() {
-    this.outputTarget.textContent = 'Rating Filter: '
+    this.outputTarget.textContent = ''
   }
 
   toggleG() {
@@ -34,6 +34,11 @@ export default class extends Controller {
   toggleR() {
     const r = document.querySelectorAll('.rated-R')
     this.toggler(this.rTarget, r)
+  }
+
+  toggleUnrated() {
+    const unrated = document.querySelectorAll('.rated-')
+    this.toggler(this.unratedTarget, unrated)
   }
 
   toggler(target, movies) {

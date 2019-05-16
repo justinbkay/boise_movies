@@ -27,7 +27,7 @@ export default class extends Controller {
     })
 
     titles.forEach((title) => {
-      const result = title.innerHTML.toLowerCase().indexOf(term)
+      const result = title.innerHTML.toLowerCase().indexOf(term.toLowerCase())
       if (result !== -1) {
         title.parentNode.parentNode.parentNode.parentNode.style.display = 'flex'
       }

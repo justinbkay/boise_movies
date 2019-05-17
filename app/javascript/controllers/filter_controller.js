@@ -19,18 +19,36 @@ export default class extends Controller {
   titleSearch(e) {
     const term = e.currentTarget.value
     const titles = document.querySelectorAll('.title-rating > h2')
-
     const display = term.length === 0 ? 'flex' : 'none'
+
+    this.resetRatingFilters()
 
     document.querySelectorAll('.card.horizontal.hoverable').forEach((movie) => {
       movie.style.display = display
     })
+
+    if (display === 'flex') return
 
     titles.forEach((title) => {
       const result = title.innerHTML.toLowerCase().indexOf(term.toLowerCase())
       if (result !== -1) {
         title.parentNode.parentNode.parentNode.parentNode.style.display = 'flex'
       }
+    })
+  }
+
+  resetRatingFilters () {
+    const add = ['green']
+    const remove = ['red', 'strikethrough']
+
+    const targets = [this.unratedTarget,
+                     this.gTarget,
+                     this.pgTarget,
+                     this.pg13Target,
+                     this.rTarget]
+    targets.forEach(function (target) {
+      target.classList.remove(...remove)
+      target.classList.add(...add)
     })
   }
 

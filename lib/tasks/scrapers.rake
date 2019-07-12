@@ -69,13 +69,13 @@ namespace :scrapers do
     movies = page.css('.lister-item.mode-grid')
 
     movies.each do |movie|
-      puts title = movie.css('span[name=alpha]').attribute('data-value').value
-      puts user_rating = movie.css('span[name=user_rating]').attribute('data-value').value
-      puts rating = movie.css('span.certificate').text
-      puts metascore = movie.css('span.metascore').text
-      puts description = movie.css('.ratings-bar + p').text
-      puts movie.css('.lister-item-image > a').attribute('href').value =~ /(tt[0-9]+)/
-      puts
+      title = movie.css('span[name=alpha]').attribute('data-value').value
+      user_rating = movie.css('span[name=user_rating]').attribute('data-value').value
+      rating = movie.css('span.certificate').text
+      metascore = movie.css('span.metascore').text
+      description = movie.css('.ratings-bar + p').text
+      movie.css('.lister-item-image > a').attribute('href').value =~ /(tt[0-9]+)/
+
       imdb_id = $1
 
       movie = Movie.where(title: title).first
@@ -88,12 +88,14 @@ namespace :scrapers do
       page2 = Nokogiri::HTML(open('https://www.imdb.com/showtimes/title/' + imdb_id + '/US/83634', { "User-Agent" => user_agent }))
       theaters = page2.css('.list_item')
       theaters.each do |theater|
-        puts theatre = theater.css('.fav_box > h3 > a > span').text
+        theatre = theater.css('.fav_box > h3 > a > span').text
         showtimes = theater.css('.showtimes a.showtimes-ticketing-link')
-                                .map(&:text)
-        puts showtimes = add_meridiem(showtimes)
-        puts img = page2.css('.poster.shadowed').attribute('src').value
+                           .map(&:text)
+        showtimes = add_meridiem(showtimes)
+        img = page2.css('.poster.shadowed').attribute('src').value
         movie.update_attribute(:poster, img)
+
+        puts 'missing ' + theatre.strip if !Theater.where(imdb_name: theatre.strip).present?
         next unless Theater.where(imdb_name: theatre.strip).presence
 
         theater = Theater.where(imdb_name: theatre.strip).first
@@ -104,10 +106,10 @@ namespace :scrapers do
       end
       page3 = Nokogiri::HTML(open('https://www.imdb.com/title/' + imdb_id + '/?ref_=shtt_ov_i'))
       begin
-      puts img = page3.css('img.pswp__img').attribute('src').value
+      img = page3.css('img.pswp__img').attribute('src').value
       movie.update_attribute(:poster, img)
       rescue
-        puts movie.title
+        movie.title
       end
     end
   end

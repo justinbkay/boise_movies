@@ -73,7 +73,7 @@ export default class extends Controller {
   }
 
   toggleUnrated() {
-    const unrated = document.querySelectorAll('.rated-')
+    const unrated = document.querySelectorAll('.rated-Unrated')
     this.toggler(this.unratedTarget, unrated)
   }
 

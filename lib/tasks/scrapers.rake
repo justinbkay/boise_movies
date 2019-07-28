@@ -78,6 +78,7 @@ namespace :scrapers do
 
       imdb_id = $1
 
+      rating = 'Unrated' if rating.empty?
       movie = Movie.where(title: title).first
       movie ||= Movie.create(title: title,
                              overview: description,
@@ -106,9 +107,9 @@ namespace :scrapers do
       end
       page3 = Nokogiri::HTML(open('https://www.imdb.com/title/' + imdb_id + '/?ref_=shtt_ov_i'))
       begin
-      img = page3.css('img.pswp__img').attribute('src').value
-      movie.update_attribute(:poster, img)
-      rescue
+        img = page3.css('img.pswp__img').attribute('src').value
+        movie.update_attribute(:poster, img)
+      rescue NoMethodError
         movie.title
       end
     end

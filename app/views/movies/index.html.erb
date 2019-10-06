@@ -1,6 +1,9 @@
 <h1>Movies</h1>
 <div data-controller="filter" id="rating_filter">
-  <input type="text" placeholder="Search" data-action="keyup->filter#titleSearch" />
+  <div class="search">
+    <i class="material-icons">search</i>
+    <input type="search" placeholder="Search" data-action="keyup->filter#titleSearch" />
+  </div>
   <span data-target="filter.output"></span>
   <div data-action="click->filter#toggleG" data-target="filter.g" class="chip green lighten-2">G (<%= @count_by_rating['G'] %>)</div>
   <div data-action="click->filter#togglePG" data-target="filter.pg" class="chip green lighten-2">PG (<%= @count_by_rating['PG'] %>)</div>

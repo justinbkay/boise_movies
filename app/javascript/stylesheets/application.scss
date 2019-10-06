@@ -47,6 +47,19 @@ body {
   .chip {
     cursor: pointer;
   }
+  .search {
+    position: relative;
+    margin-bottom: 20px;
+
+    input { text-indent: 30px;}
+
+    .material-icons {
+      position: absolute;
+      top: 15px;
+      left: 7px;
+      font-size: 1em;
+    }
+  }
 }
 
 .strikethrough {
@@ -147,8 +160,10 @@ body {
       height: 62px;
       line-height: 62px;
     }
-    input[type=text] {
-      font-size: 4em;
+    input[type=search] {
+      text-indent: 70px;
+      padding: 10px;
+      font-size: 1em;
       margin-bottom: 20px;
     }
   }
@@ -199,8 +214,19 @@ body {
       height: 32px;
       line-height: 32px;
     }
-    input[type=text] {
-      font-size: 2em;
+    .search {
+      input {
+        padding: 10px 10px 5px 10px;
+        text-indent: 40px;
+        font-size: 1.5em;
+      }
+
+      .material-icons {
+        position: absolute;
+        top: 20px;
+        left: 7px;
+        font-size: 1.5em;
+      }
     }
   }
   div.card-image > img.side-poster, div.title-rating {

@@ -79,6 +79,7 @@ namespace :scrapers do
       imdb_id = $1
 
       rating = 'Unrated' if rating.empty?
+      rating = 'Unrated' if rating.match?(/not rated/i)
       movie = Movie.where(title: title).first
       movie ||= Movie.create(title: title,
                              overview: description,

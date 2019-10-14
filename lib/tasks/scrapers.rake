@@ -93,6 +93,12 @@ namespace :scrapers do
         theatre = theater.css('.fav_box > h3 > a > span').text
         showtimes = theater.css('.showtimes a.showtimes-ticketing-link')
                            .map(&:text)
+        if showtimes.empty?
+          showtimes += theater.css('.showtimes')
+                              .map(&:text)
+                              .map(&:strip)
+          showtimes = showtimes.first.delete("|\n").split(/\s{2}/).reject(&:empty?).map(&:strip)
+        end
         showtimes = add_meridiem(showtimes)
         img = page2.css('.poster.shadowed').attribute('src').value
         movie.update_attribute(:poster, img)

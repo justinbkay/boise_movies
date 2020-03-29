@@ -81,6 +81,7 @@ jobs:
       - run:
           name: Run rspec in parallel
           command: |
+            ./cc-test-reporter before-build
             bundle exec rspec --profile 10 \
                               --format RspecJunitFormatter \
                               --out test_results/rspec.xml \

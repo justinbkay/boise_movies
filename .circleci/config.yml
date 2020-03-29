@@ -38,9 +38,7 @@ jobs:
           command: gem install bundler
       - run:
           name: ls env
-          command: |
-            pwd
-            ls -l ./*
+          command: ls -l ./*
       - run:
 
       # Restore bundle cache

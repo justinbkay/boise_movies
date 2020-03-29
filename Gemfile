@@ -40,11 +40,11 @@ group :development, :test do
 end
 
 group :development do
-  gem "capistrano", "~> 3.10", require: false
+  gem 'capistrano', '~> 3.10', require: false
   gem 'capistrano-bundler', require: false
-  gem 'capistrano3-puma'
-  gem "capistrano-rails", "~> 1.4", require: false
+  gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-rbenv', github: 'capistrano/rbenv', require: false
+  gem 'capistrano3-puma'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rb-readline'
@@ -56,12 +56,13 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15'
-  # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'webdrivers'
   # Adds support for Capybara system testing and selenium driver
+  gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'simplecov', '~> 0.17.1'
+  # Easy installation and use of chromedriver to run system tests with Chrome
+  gem 'webdrivers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

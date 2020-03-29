@@ -59,12 +59,6 @@ jobs: # a collection of steps
             - ~/.cache/yarn
 
       - run:
-        name: Install Code Climate Test Reporter
-        command: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-
-      - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
@@ -81,44 +75,7 @@ jobs: # a collection of steps
                               --format progress \
                               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
-      - run:
-          name: Code Climate Test Coverage
-          command: |
-            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
-      - persist_to_workspace:
-          root: coverage
-          paths:
-            - codeclimate.*.json
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: test-artifacts
       # Save test results for timing analysis
       - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: test_results
       # See https://circleci.com/docs/2.0/deployment-integrations/ for example deploy configs
-  upload-coverage:
-    docker:
-      - image: circleci/ruby:2.6.3-node-browsers
-    environment:
-      CC_TEST_REPORTER_ID: fd2970201da4508cee7c341c941ba12bf27218029ecd96cd783396290fe996c2
-
-    steps:
-      - run:
-          name: Install Code Climate Test Reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-      - run:
-          command: |
-            ./cc-test-reporter sum-coverage --output - codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -
-
-workflows:
-  version: 2
-
-  commit:
-    jobs:
-      - build
-      - upload-coverage:
-          requires:
-              - build

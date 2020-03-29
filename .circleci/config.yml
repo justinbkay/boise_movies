@@ -110,7 +110,7 @@ jobs:
       - run:
           name: Setup Environment Variables
           command: |
-            echo "export GIT_COMMIT=$CIRCLE_SHA1" >> $BASH_ENV
+            echo "export GIT_COMMIT_SHA=$CIRCLE_SHA1" >> $BASH_ENV
             echo $GIT_COMMIT
       - run:
           name: Upload coverage results to Code Climate

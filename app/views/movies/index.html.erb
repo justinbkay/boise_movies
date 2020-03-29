@@ -5,11 +5,11 @@
     <input type="search" placeholder="Search" data-action="keyup->filter#titleSearch" />
   </div>
   <span data-target="filter.output"></span>
-  <div data-action="click->filter#toggleG" data-target="filter.g" class="chip green lighten-2">G (<%= @count_by_rating['G'] %>)</div>
-  <div data-action="click->filter#togglePG" data-target="filter.pg" class="chip green lighten-2">PG (<%= @count_by_rating['PG'] %>)</div>
-  <div data-action="click->filter#togglePG13" data-target="filter.pg13" class="chip green lighten-2">PG-13 (<%= @count_by_rating['PG-13'] %>)</div>
-  <div data-action="click->filter#toggleR" data-target="filter.r" class="chip green lighten-2">R (<%= @count_by_rating['R'] %>)</div>
-  <div data-action="click->filter#toggleUnrated" data-target="filter.unrated" class="chip green lighten-2">Unrated (<%= @count_by_rating['Unrated'] %>)</div>
+  <div data-action="click->filter#toggleG" data-target="filter.g" class="chip green lighten-2">G (<%= @count_by_rating['G'] || 0 %>)</div>
+  <div data-action="click->filter#togglePG" data-target="filter.pg" class="chip green lighten-2">PG (<%= @count_by_rating['PG'] || 0 %>)</div>
+  <div data-action="click->filter#togglePG13" data-target="filter.pg13" class="chip green lighten-2">PG-13 (<%= @count_by_rating['PG-13'] || 0 %>)</div>
+  <div data-action="click->filter#toggleR" data-target="filter.r" class="chip green lighten-2">R (<%= @count_by_rating['R'] || 0 %>)</div>
+  <div data-action="click->filter#toggleUnrated" data-target="filter.unrated" class="chip green lighten-2">Unrated (<%= @count_by_rating['Unrated'] || 0 %>)</div>
 </div>
 <% @movies.each do |m| %>
   <% cache m do %>

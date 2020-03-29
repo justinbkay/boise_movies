@@ -108,9 +108,9 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run:
-          name: ls env
+          name: Setup Environment Variables
           command: |
-            ls -l ./tmp/
+            echo "export COMMIT_SHA=$CIRCLE_SHA1" >> $BASH_ENV
       - run:
           name: Upload coverage results to Code Climate
           command: |

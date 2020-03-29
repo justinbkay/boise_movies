@@ -36,10 +36,11 @@ jobs:
       - run:
           name: Which bundler?
           command: gem install bundler
+      - attach_workspace:
+          at: ~/repo
       - run:
           name: ls env
           command: |
-            pwd
             ls -l ./*
       # Restore bundle cache
       # Read about caching dependencies: https://circleci.com/docs/2.0/caching/

@@ -38,10 +38,6 @@ jobs:
           command: gem install bundler
       - attach_workspace:
           at: ~/repo
-      - run:
-          name: ls env
-          command: |
-            ls -l ./*
       # Restore bundle cache
       # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
       - restore_cache:
@@ -119,7 +115,7 @@ jobs:
           name: Upload coverage results to Code Climate
           command: |
             cd tmp/
-            ./cc-test-reporter upload-coverage -i ./codeclimate.total.json
+            ./cc-test-reporter upload-coverage -i ./odeclimate.total.json
 workflows:
   version: 2
 

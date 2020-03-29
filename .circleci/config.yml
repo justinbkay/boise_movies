@@ -91,6 +91,10 @@ jobs:
       - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: test_results
       - run:
+          name: Cat Coverage
+          command: |
+            cat coverage/.resultset.json
+      - run:
           name: Stash Coverage Results
           command: |
             cp -R coverage/.resultset.json tmp/codeclimate.total.json

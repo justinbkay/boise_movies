@@ -18,6 +18,17 @@ jobs: # a collection of steps
           POSTGRES_DB: boise_movies_test
           POSTGRES_PASSWORD: ""
     steps: # a collection of executable commands
+      - run:
+        name:  Download cc-test-reporter
+        command: |
+          mkdir -p tmp/
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+          chmod +x ./tmp/cc-test-reporter
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - cc-test-reporter
+
       - checkout # special step to check out source code to working directory
 
       # Which version of bundler?
@@ -79,3 +90,36 @@ jobs: # a collection of steps
       - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: test_results
       # See https://circleci.com/docs/2.0/deployment-integrations/ for example deploy configs
+  upload-coverage:
+    docker: # run the steps with Docker
+      - image: circleci/ruby:2.6.3-node-browsers
+        environment: # environment variables for primary container
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          PGHOST: 127.0.0.1
+          PGUSER: circleci-demo-ruby
+          RAILS_ENV: test
+      - image: circleci/postgres:9.5-alpine # database image
+        environment: # environment variables for database
+          POSTGRES_USER: circleci-demo-ruby
+          POSTGRES_DB: boise_movies_test
+          POSTGRES_PASSWORD: ""
+    environment:
+      - CC_TEST_REPORTER_ID: fd2970201da4508cee7c341c941ba12bf27218029ecd96cd783396290fe996c2
+    steps:
+      - run:
+          name: Upload coverage results to Code Climate
+          command: |
+            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
+            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
+
+workflows:
+  version: 2
+
+  commit:
+    jobs:
+      - build
+      - upload-coverage:
+          requires:
+            - build

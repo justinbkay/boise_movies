@@ -38,9 +38,9 @@ jobs:
           command: gem install bundler
       - run:
           name: ls env
-          command: ls -l ./*
-      - run:
-
+          command: |
+            pwd
+            ls -l ./*
       # Restore bundle cache
       # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
       - restore_cache:

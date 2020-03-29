@@ -26,9 +26,9 @@ jobs:
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
             chmod +x ./tmp/cc-test-reporter
       - persist_to_workspace:
-          root: tmp
+          root: .
           paths:
-            - cc-test-reporter
+            - tmp
   backend-tests:
     <<: *defaults
     steps:
@@ -112,9 +112,6 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run:
-          name: mv cc-test-reporter
-          command: mv ./cc-test-reporter tmp/
-      - run:
           name: ls env
           command: |
             ls -l ./tmp/
@@ -122,7 +119,7 @@ jobs:
           name: Upload coverage results to Code Climate
           command: |
             cd tmp/
-            ./cc-test-reporter upload-coverage -i ./codeclimate.total.json
+            ./tmp/cc-test-reporter upload-coverage -i ./tmp/codeclimate.total.json
 workflows:
   version: 2
 

@@ -31,6 +31,9 @@ jobs:
             - tmp
   backend-tests:
     <<: *defaults
+    environment:
+      - GIT_COMMIT_SHA: ${CIRCLE_SHA1}
+      - GIT_BRANCH: ${CIRCLE_BRANCH}
     steps:
       - checkout
       - run:
@@ -80,13 +83,6 @@ jobs:
           command: bin/rails db:schema:load --trace
 
       - run:
-          name: Setup Environment Variables
-          command: |
-            echo "export GIT_COMMIT_SHA=$CIRCLE_SHA1" >> $BASH_ENV
-            echo "export GIT_BRANCH='master'" >> $BASH_ENV
-            echo ${GIT_COMMIT_SHA}
-
-      - run:
           name: Run rspec in parallel
           command: |
             ./tmp/cc-test-reporter before-build
@@ -111,6 +107,8 @@ jobs:
     <<: *defaults
     environment:
       - CC_TEST_REPORTER_ID: fd2970201da4508cee7c341c941ba12bf27218029ecd96cd783396290fe996c2
+      - GIT_COMMIT_SHA: ${CIRCLE_SHA1}
+      - GIT_BRANCH: ${CIRCLE_BRANCH}
     steps:
       - attach_workspace:
           at: ~/repo

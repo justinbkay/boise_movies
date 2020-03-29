@@ -93,7 +93,7 @@ jobs:
       - run:
           name: Stash Coverage Results
           command: |
-            cp -R coverage/.resultset.json tmp/codeclimate.backend.json
+            cp -R coverage/.resultset.json tmp/codeclimate.total.json
       - attach_workspace:
           at: ~/repo/tmp
       - persist_to_workspace:

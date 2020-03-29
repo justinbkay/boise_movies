@@ -111,12 +111,12 @@ jobs:
       - run:
           name: ls env
           command: |
-            ls -l ./*
+            ls -l ./tmp/
       - run:
           name: Upload coverage results to Code Climate
           command: |
             cd tmp/
-            ./cc-test-reporter upload-coverage -i codeclimate.total.json
+            ./cc-test-reporter upload-coverage -i ./codeclimate.total.json
 workflows:
   version: 2
 

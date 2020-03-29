@@ -36,7 +36,7 @@ jobs:
       - attach_workspace:
           at: ~/repo/tmp
       - persist_to_workspace:
-          root: tmp
+          root: ~/repo/tmp
           paths:
             - codeclimate.backend.json
   upload-coverage:

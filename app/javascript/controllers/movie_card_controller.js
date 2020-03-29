@@ -4,15 +4,11 @@ export default class extends Controller {
   static targets = [ "showtimes", "icon" ]
 
   toggleShowtimes() {
-    if (this.showtimes === 'show') {
-      this.showtimesTarget.style.display = 'none'
-      this.showtimes = 'hidden'
-      this.iconTarget.innerHTML = 'local_movies'
-    } else {
-      this.showtimesTarget.style.display = 'block'
-      this.showtimes = 'show'
-      this.iconTarget.innerHTML = 'close'
-    }
+    const show = this.showtimes === 'show'
+
+    this.showtimesTarget.style.display = show ? 'none' : 'block'
+    this.showtimes = show ? 'hidden' : 'show'
+    this.iconTarget.innerHTML = show ? 'local_movies' : 'close'
   }
 
   get showtimes() {

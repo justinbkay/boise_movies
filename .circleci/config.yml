@@ -83,7 +83,8 @@ jobs:
           name: Setup Environment Variables
           command: |
             echo "export GIT_COMMIT_SHA=$CIRCLE_SHA1" >> $BASH_ENV
-            echo "export GIT_BRANCH=master" >> $BASH_ENV
+            echo "export GIT_BRANCH='master'" >> $BASH_ENV
+            echo ${GIT_COMMIT_SHA}
 
       - run:
           name: Run rspec in parallel

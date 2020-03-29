@@ -106,13 +106,16 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run:
+          name: mv cc-test-reporter
+          command: mv ./cc-test-reporter tmp/
+      - run:
           name: ls env
           command: |
             ls -l ./*
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            ./cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
+            ./cc-test-reporter upload-coverage -i codeclimate.total.json
 workflows:
   version: 2
 

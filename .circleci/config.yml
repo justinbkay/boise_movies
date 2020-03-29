@@ -99,7 +99,7 @@ jobs:
       - persist_to_workspace:
           root: tmp
           paths:
-            - codeclimate.backend.json
+            - codeclimate.total.json
   upload-coverage:
     <<: *defaults
     environment:
@@ -110,7 +110,6 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
 workflows:
   version: 2

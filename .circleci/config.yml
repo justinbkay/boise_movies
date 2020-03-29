@@ -96,8 +96,6 @@ jobs:
                               --format progress \
                               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
-      - store_artifacts:
-          path: coverage
       # Save test results for timing analysis
       - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: test_results
@@ -116,11 +114,17 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
-      # - run:
-      #     name: Upload coverage results to Code Climate
-      #     command: |
-      #       cd tmp/
-      #       ./cc-test-reporter upload-coverage --debug -i ./codeclimate.total.json
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo "export GIT_COMMIT_SHA=$CIRCLE_SHA1" >> $BASH_ENV
+            echo "export GIT_BRANCH=$CIRCLE_BRANCH" >> $BASH_ENV
+            source $BASH_ENV
+      - run:
+          name: Upload coverage results to Code Climate
+          command: |
+            cd tmp/
+            ./cc-test-reporter upload-coverage --debug -i ./codeclimate.total.json
 workflows:
   version: 2
 

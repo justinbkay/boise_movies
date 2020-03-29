@@ -116,11 +116,11 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
-      - run:
-          name: Upload coverage results to Code Climate
-          command: |
-            cd tmp/
-            ./cc-test-reporter upload-coverage --debug -i ./codeclimate.total.json
+      # - run:
+      #     name: Upload coverage results to Code Climate
+      #     command: |
+      #       cd tmp/
+      #       ./cc-test-reporter upload-coverage --debug -i ./codeclimate.total.json
 workflows:
   version: 2
 

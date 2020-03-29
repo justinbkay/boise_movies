@@ -115,7 +115,7 @@ jobs:
           name: Upload coverage results to Code Climate
           command: |
             cd tmp/
-            ./cc-test-reporter upload-coverage -i ./odeclimate.total.json
+            cat ./codeclimate.total.json
 workflows:
   version: 2
 

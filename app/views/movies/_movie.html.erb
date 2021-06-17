@@ -34,10 +34,12 @@
           <h4><%= t.name %></h4>
           <% m.showings.theater_on_date(t, Date.current).each do |s| %>
             <div class="row">
+            <% ampm = "" %>
               <% s.showtimes.each do |st| %>
+              <% ampm = find_meridian(st) %>
                 <div class="col l3 m6 s6 showtimes">
                   <i class="material-icons">access_time</i>
-                  <%= normalize_times(st) %>
+                  <%= normalize_times(st) %> <%= ampm %>
                 </div>
               <% end %>
             </div>

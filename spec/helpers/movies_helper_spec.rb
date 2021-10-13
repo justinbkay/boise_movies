@@ -13,7 +13,7 @@ require 'rails_helper'
 RSpec.describe MoviesHelper, type: :helper do
   describe 'normalize_times' do
     it 'puts times into a standard format' do
-      expect(helper.normalize_times('1:30 pm')).to eq('01:30 PM')
+      expect(helper.normalize_times('1:30 pm')).to eq('01:30')
     end
   end
 end

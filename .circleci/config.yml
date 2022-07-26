@@ -16,19 +16,6 @@ defaults: &defaults
         POSTGRES_DB: boise_movies_test
         POSTGRES_PASSWORD: ""
 jobs:
-  build:
-    <<: *defaults
-    steps:
-      - run:
-          name:  Download cc-test-reporter
-          command: |
-            mkdir -p tmp/
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
-            chmod +x ./tmp/cc-test-reporter
-      - persist_to_workspace:
-          root: .
-          paths:
-            - tmp
   backend-tests:
     <<: *defaults
     steps:

@@ -2,7 +2,7 @@ version: 2.1
 defaults: &defaults
   working_directory: ~/repo
   docker: # run the steps with Docker
-    - image: circleci/ruby:2.6.3-node-browsers
+    - image: cimg/ruby:2.7.6-browsers
       environment: # environment variables for primary container
         BUNDLE_JOBS: 3
         BUNDLE_RETRY: 3

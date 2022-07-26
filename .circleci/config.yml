@@ -20,7 +20,7 @@ jobs:
     <<: *defaults
     steps:
       - run:
-          name:  Download cc-test-reporter
+          name: Download cc-test-reporter
           command: |
             mkdir -p tmp/
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
@@ -136,4 +136,4 @@ workflows:
             - build
       - upload-coverage:
           requires:
-             - backend-tests
+            - backend-tests

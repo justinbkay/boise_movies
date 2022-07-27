@@ -102,6 +102,7 @@ namespace :scrapers do
         showtimes = add_meridiem(showtimes)
         img = page2.css('.poster.shadowed').attribute('src').value
         movie.update_attribute(:poster, img)
+        movie.update_attribute(:imdb_id, imdb_id)
 
         puts 'missing ' + theatre.strip if !Theater.where(imdb_name: theatre.strip).present?
         next unless Theater.where(imdb_name: theatre.strip).presence

@@ -14,12 +14,17 @@
         <h3><%= m.rating %></h3>
       </div>
       <p><%= m.overview %> </p>
-      <%if m.runtime %>
-        Runtime: <%= m.runtime %>
-      <% end %>
-      <% if m.genre %>
-        <p><%= m.genre %></p>
-      <% end %>
+      <p>
+        <%if m.runtime %>
+          Runtime: <%= m.runtime %>
+        <% end %>
+        <% if m.genre %>
+          <br><%= m.genre %>
+        <% end %>
+        <% if m.box_office %>
+          <br>Box Office: <%= m.box_office %>
+        <% end %>
+      </p>
       <% if m.rotten_tomatoes.present? %>
         <span class="badge red flow-text" data-badge-caption="Rotten Tomatoes"><%= m.rotten_tomatoes %></span>
       <% end %>

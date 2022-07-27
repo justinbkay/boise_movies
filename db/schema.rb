@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_27_195613) do
+ActiveRecord::Schema.define(version: 2022_07_27_221828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2022_07_27_195613) do
     t.string "runtime"
     t.string "rotten_tomatoes"
     t.string "genre"
+    t.string "box_office"
     t.index ["tmdb_id"], name: "index_movies_on_tmdb_id", unique: true
   end
 

@@ -4,7 +4,7 @@
 
 This is a Rails 6.1 application
 
-It runs on Ruby 2.6.3
+It runs on Ruby 2.7.6
 
 Tests are written with rspec
 

@@ -18,10 +18,10 @@ namespace :omdb do
 				if body["BoxOffice"]
 					movie.update_attribute(:box_office, body["BoxOffice"])
 				end
-				if !movie.overview
+				if movie.overview.blank?
 					movie.update_attribute(:overview, body["Plot"])
 				end
-				if !movie.metascore && body["Metascore"]
+				if movie.metascore.blank? && body["Metascore"]
 					movie.update_attribute(:metascore, body["Metascore"])
 				end
 				movie.update_attribute(:runtime, body["Runtime"])

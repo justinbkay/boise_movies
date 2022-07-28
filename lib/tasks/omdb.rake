@@ -7,7 +7,7 @@ namespace :omdb do
   task get_movie_data: :environment do
 		movies = Movie.all
 		movies.each do |movie|
-			uri = URI("https://www.omdbapi.com/?i=#{movie.imdb_id}&apikey=ce280a8f")
+			uri = URI("https://www.omdbapi.com/?i=#{movie.imdb_id}&apikey=#{Rails.application.credentials.omdb_key}")
 			res = Net::HTTP.get_response(uri)
 			if res.is_a?(Net::HTTPSuccess)
 				body = JSON.parse(res.body)

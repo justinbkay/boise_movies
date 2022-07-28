@@ -29,7 +29,35 @@ namespace :omdb do
 				if rotten_tomatoes
 				  movie.update_attribute(:rotten_tomatoes, rotten_tomatoes["Value"])
 				end
+
+				get_tmdb_info(movie)
 			end
 		end
+	end
+
+	def get_tmdb_info(movie)
+		uri = URI("https://api.themoviedb.org/3/find/#{movie.imdb_id}?api_key=#{Rails.application.credentials.tmdb_key}&language=en-US&external_source=imdb_id")
+			res = Net::HTTP.get_response(uri)
+			if res.is_a?(Net::HTTPSuccess)
+				body = JSON.parse(res.body)
+				movie_id = body["movie_results"][0]["id"]
+				get_trailers(movie_id, movie)
+			end
+	end
+
+	def get_trailers(id, movie)
+		uri = URI("https://api.themoviedb.org/3/movie/#{id}/videos?api_key=#{Rails.application.credentials.tmdb_key}&language=en-US")
+			res = Net::HTTP.get_response(uri)
+			if res.is_a?(Net::HTTPSuccess)
+				body = JSON.parse(res.body)
+				body["results"].filter {|video| video["type"] == "Trailer" && video["official"] == true && !video["name"].include?("English Subtitled")}.each do |trailer|
+					Trailer.create(
+						movie_id: movie.id,
+						name: trailer["name"],
+						site: trailer["site"],
+						key: trailer["key"]
+					)
+				end
+			end
 	end
 end

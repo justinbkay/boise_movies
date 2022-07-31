@@ -7,6 +7,11 @@ class MoviesController < ApplicationController
     @count_by_rating = make_count(@movies)
   end
 
+  def trailer
+    @movie = Movie.find(params[:id])
+    render layout: false
+  end
+
   private
 
   def make_count(movies)

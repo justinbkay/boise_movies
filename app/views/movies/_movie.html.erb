@@ -24,11 +24,9 @@
         <% if m.box_office %>
           <br>Box Office: <%= m.box_office %>
         <% end %>
-        <div>
-          <% m.trailers.each do |trailer| %>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= trailer.key %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <% end %>
-        </div>
+        <p data-movie-card-target="trailer">
+          <%= link_to "Show trailer(s)", movie_trailer_path(m), data: { remote: true, action: 'ajax:success->movie-card#renderTrailer' } %>
+        </p>
       </p>
       <% if m.rotten_tomatoes.present? %>
         <span class="badge red flow-text" data-badge-caption="Rotten Tomatoes"><%= m.rotten_tomatoes %></span>

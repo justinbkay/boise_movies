@@ -51,12 +51,16 @@ namespace :omdb do
 			if res.is_a?(Net::HTTPSuccess)
 				body = JSON.parse(res.body)
 				body["results"].filter {|video| video["type"] == "Trailer" && video["official"] == true && !video["name"].include?("English Subtitled")}.each do |trailer|
-					Trailer.create(
-						movie_id: movie.id,
-						name: trailer["name"],
-						site: trailer["site"],
-						key: trailer["key"]
-					)
+					begin
+						Trailer.create(
+							movie_id: movie.id,
+							name: trailer["name"],
+							site: trailer["site"],
+							key: trailer["key"]
+						)
+					rescue
+						puts "duplicate trailer"
+					end
 				end
 			end
 	end

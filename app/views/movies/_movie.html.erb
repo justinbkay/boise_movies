@@ -24,9 +24,11 @@
         <% if m.box_office %>
           <br>Box Office: <%= m.box_office %>
         <% end %>
-        <p data-movie-card-target="trailer">
-          <%= link_to "Show trailer(s)", movie_trailer_path(m), data: { remote: true, action: 'ajax:success->movie-card#renderTrailer' } %>
-        </p>
+        <% if m.trailers.count > 0 %>
+          <p data-movie-card-target="trailer">
+            <%= link_to "Show trailer(s)", movie_trailer_path(m), data: { remote: true, action: 'ajax:success->movie-card#renderTrailer' } %>
+          </p>
+        <% end %>
       </p>
       <% if m.rotten_tomatoes.present? %>
         <span class="badge red flow-text" data-badge-caption="Rotten Tomatoes"><%= m.rotten_tomatoes %></span>

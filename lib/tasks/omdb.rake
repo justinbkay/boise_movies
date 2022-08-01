@@ -12,6 +12,9 @@ namespace :omdb do
 			if res.is_a?(Net::HTTPSuccess)
 				body = JSON.parse(res.body)
 
+				if body["Released"]
+					movie.update_attribute(:released, body["Released"])
+				end
 				if body["Ratings"]
 					rotten_tomatoes = body["Ratings"].find {|r| r["Source"] == "Rotten Tomatoes" }
 				end

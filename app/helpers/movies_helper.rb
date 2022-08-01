@@ -8,4 +8,12 @@ module MoviesHelper
     m = time.match(/(\d+):(\d+)\s*(\w*)/)
     m[3].empty? ? 'pm' : m[3].downcase
   end
+
+  def show_trailer_pluralize(count)
+    if count == 1
+      "Show Trailer"
+    else
+      "Show Trailers"
+    end
+  end
 end

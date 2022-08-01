@@ -15,18 +15,21 @@
       </div>
       <p><%= m.overview %> </p>
       <p>
+        <% if m.released %>
+          Released: <%= m.released %><br>
+        <% end %>
         <%if m.runtime %>
           Runtime: <%= m.runtime %>
         <% end %>
         <% if m.genre %>
-          <br><%= m.genre %>
+          <br>Genre: <%= m.genre %>
         <% end %>
         <% if m.box_office %>
-          <br>Box Office: <%= m.box_office %>
+          <br><br>Box Office: <%= m.box_office %>
         <% end %>
         <% if m.trailers.count > 0 %>
           <p data-movie-card-target="trailer">
-            <%= link_to "Show trailer(s)", movie_trailer_path(m), data: { remote: true, action: 'ajax:success->movie-card#renderTrailer' } %>
+            <%= link_to show_trailer_pluralize(m.trailers.count), movie_trailer_path(m), class: "btn btn-primary", data: { remote: true, action: 'ajax:success->movie-card#renderTrailer' } %>
           </p>
         <% end %>
       </p>

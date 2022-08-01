@@ -263,3 +263,18 @@ body {
     height: 22;
   }
 }
+
+.trailers {
+  padding: 30px 10px;
+  float: right;
+}
+.trailer-container {
+  padding-top: 20px;
+  clear: both;
+  iframe {
+    display: block;
+    margin: auto;
+    padding: 20px;
+    float: none;
+  }
+}

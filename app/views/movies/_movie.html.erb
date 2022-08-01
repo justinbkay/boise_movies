@@ -14,42 +14,48 @@
         <h3><%= m.rating %></h3>
       </div>
       <p><%= m.overview %> </p>
-      <p>
-        <% if m.released %>
-          Released: <%= m.released %><br>
-        <% end %>
-        <%if m.runtime %>
-          Runtime: <%= m.runtime %>
-        <% end %>
-        <% if m.genre %>
-          <br>Genre: <%= m.genre %>
-        <% end %>
-        <% if m.box_office %>
-          <br><br>Box Office: <%= m.box_office %>
-        <% end %>
+      <div class="row">
+        <div class="col s6">
+          <% if m.released %>
+            Released: <%= m.released %><br>
+          <% end %>
+          <%if m.runtime %>
+            Runtime: <%= m.runtime %>
+          <% end %>
+          <% if m.genre %>
+            <br>Genre: <%= m.genre %>
+          <% end %>
+          <% if m.box_office %>
+            <br><br>Box Office: <%= m.box_office %>
+          <% end %>
+        </div>
+        <div class="col s6">
+          <% if m.rotten_tomatoes.present? %>
+            <span class="badge red flow-text" data-badge-caption="Rotten Tomatoes"><%= m.rotten_tomatoes %></span>
+          <% end %>
+          <% if m.imdb_rating.present? && m.imdb_rating != '0' %>
+            <span class="badge green flow-text" data-badge-caption="IMDB"><%= m.imdb_rating %></span>
+          <% end %>
+          <% if m.metascore.present? %>
+            <span class="badge yellow darken-1 flow-text" data-badge-caption="MetaScore"><%= m.metascore %></span>
+          <% end %>
+        </div>
+
         <% if m.trailers.count > 0 %>
-          <p data-movie-card-target="trailer">
+          <div class="trailers" data-movie-card-target="trailerbutton">
             <%= link_to show_trailer_pluralize(m.trailers.count), movie_trailer_path(m), class: "btn btn-primary", data: { remote: true, action: 'ajax:success->movie-card#renderTrailer' } %>
-          </p>
+          </div>
+          <div data-movie-card-target="trailer" class="trailer-container"></div>
         <% end %>
-      </p>
-      <% if m.rotten_tomatoes.present? %>
-        <span class="badge red flow-text" data-badge-caption="Rotten Tomatoes"><%= m.rotten_tomatoes %></span>
-      <% end %>
-      <% if m.imdb_rating.present? && m.imdb_rating != '0' %>
-        <span class="badge green flow-text" data-badge-caption="IMDB"><%= m.imdb_rating %></span>
-      <% end %>
-      <% if m.metascore.present? %>
-        <span class="badge yellow darken-1 flow-text" data-badge-caption="MetaScore"><%= m.metascore %></span>
-      <% end %>
+      </div>
     </div>
     <div class="show-showtimes">
       <a class="waves-effect waves-light btn" data-action="movie-card#toggleShowtimes">
-        <i class="material-icons right" data-target="movie-card.icon">local_movies</i>
+        <i class="material-icons right" data-movie-card-target="icon">local_movies</i>
         Showtimes
       </a>
     </div>
-    <div class="theater-showtimes" data-target="movie-card.showtimes">
+    <div class="theater-showtimes" data-movie-card-target="showtimes">
       <% m.theaters.order_by_name.uniq.each do |t| %>
         <% next if m.showings.theater_on_date(t, Date.current).blank? %>
         <div class="card-action">

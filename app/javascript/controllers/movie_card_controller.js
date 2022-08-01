@@ -1,7 +1,7 @@
 import { Controller } from "stimulus";
 
 export default class extends Controller {
-  static targets = ["showtimes", "icon", "trailer"];
+  static targets = ["showtimes", "icon", "trailer", "trailerbutton"];
 
   toggleShowtimes() {
     const show = this.showtimes === "show";
@@ -13,6 +13,7 @@ export default class extends Controller {
 
   renderTrailer(evt) {
     this.trailerTarget.innerHTML = evt.detail[0].body.innerHTML;
+    this.trailerbuttonTarget.style.display = "none";
   }
 
   get showtimes() {
@@ -20,7 +21,6 @@ export default class extends Controller {
   }
 
   set showtimes(value) {
-    console.log("setting ", value);
     this.data.set("showtimes", value);
   }
 }

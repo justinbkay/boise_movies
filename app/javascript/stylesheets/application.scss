@@ -94,7 +94,7 @@ body {
     display: none;
   }
 
-  .show-showtimes {
+  .show-showtimes, .trailers {
     padding: 80px 0;
     font-size: 4em;
     text-align: center;
@@ -108,6 +108,15 @@ body {
   }
   .card.horizontal.hoverable {
     margin: 30px 0;
+  }
+
+  .ratings-list {
+    float: right;
+    display: block;
+    .item {
+      display: block;
+      text-align: right;
+    }
   }
 
   h1 {
@@ -145,10 +154,14 @@ body {
     padding-bottom: 50px;
   }
 
-  span.badge {
+  span.badge, .movie-details {
     font-size: 3.0em;
     line-height: 60px;
     height: auto;
+  }
+
+  .rating-services {
+    // margin-top: 40px;
   }
 
   #rating_filter {
@@ -170,6 +183,27 @@ body {
 }
 
 @media (min-device-width : 375px) {
+  .ratings-list {
+    margin-top: 50px;
+  }
+  .trailers {
+    float: none;
+    padding-bottom: 0;
+  }
+  .show-showtimes {
+    padding-bottom: 80px;
+    padding-top: 20px;
+  }
+  .trailer-container {
+    padding-top: 20px;
+    clear: both;
+    iframe {
+      display: block;
+      margin: auto;
+      padding: 20px;
+      float: none;
+    }
+  }
 }
 
 @media (min-device-width : 768px) {
@@ -190,7 +224,7 @@ body {
     padding: 5px;
     height: 44px;
   }
-  .show-showtimes {
+  .show-showtimes, .trailers {
     padding: 20px 0;
     font-size: 1em;
     text-align: center;
@@ -257,24 +291,24 @@ body {
     padding-bottom: 50px;
   }
 
-  span.badge {
+  span.badge, .movie-details {
     font-size: 1em;
     line-height: 22px;
     height: 22;
   }
-}
 
-.trailers {
-  padding: 30px 10px;
-  float: right;
-}
-.trailer-container {
-  padding-top: 20px;
-  clear: both;
-  iframe {
-    display: block;
-    margin: auto;
-    padding: 20px;
-    float: none;
+  .trailers {
+    padding: 10px 10px;
+    float: right;
+  }
+  .trailer-container {
+    padding-top: 20px;
+    clear: both;
+    iframe {
+      display: block;
+      margin: auto;
+      padding: 20px;
+      float: none;
+    }
   }
 }

@@ -117,7 +117,8 @@ namespace :scrapers do
                                       play_date: date,
                                       showtimes: showtimes)
       end
-      page3 = Nokogiri::HTML(open('https://www.imdb.com/title/' + imdb_id + '/?ref_=shtt_ov_i'))
+      url = "https://www.imdb.com/title/#{imdb_id}/?ref_=shtt_ov_i"
+      page3 = Nokogiri::HTML(open(url, { 'User-Agent' => user_agent }))
       begin
         img = page3.css('img.pswp__img').attribute('src').value
         movie.update_attribute(:poster, img)
